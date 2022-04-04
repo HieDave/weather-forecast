@@ -7,13 +7,13 @@ const Cards = () => {
   return (
     <Box sx={{
         borderRadius: 2,
-        backgroundColor:"primary.light",
+        // backgroundColor:"primary.light",
     }}>
         <Grid container spacing={2}>
-            <Grid item xs={5}>
+            <Grid item xs={3}>
                 <CardItem1 />
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={9}>
                 <CardItem2 />
             </Grid>
         </Grid>
