@@ -4,7 +4,6 @@ import React from 'react'
 const HumidityCard = (props) => {
   const {date, humidity, index} = props;
 
-  console.log(index)
   return (
     <Paper elevation={0} sx={{
         p: 3,

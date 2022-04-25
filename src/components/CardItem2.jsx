@@ -1,5 +1,5 @@
 import { Paper } from '@mui/material'
-import HumidityCards from './HumidityCards';
+import HumidityCardList from './HumidityCardList';
 import Chart from './Chart';
 
 
@@ -13,7 +13,7 @@ const CardItem2 = () => {
         }}>
             <Chart />
         </Paper>
-        <HumidityCards />
+        <HumidityCardList />
     </>
   )
 }

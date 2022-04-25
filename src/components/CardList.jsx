@@ -3,7 +3,7 @@ import React from 'react'
 import CardItem1 from './CardItem1'
 import CardItem2 from './CardItem2'
 
-const Cards = () => {
+const CardList = ({ currentWeather }) => {
   return (
     <Box sx={{
         borderRadius: 2,
@@ -11,7 +11,7 @@ const Cards = () => {
     }}>
         <Grid container spacing={2}>
             <Grid item xs={3}>
-                <CardItem1 />
+                <CardItem1 currentWeather={currentWeather}/>
             </Grid>
             <Grid item xs={9}>
                 <CardItem2 />
@@ -21,4 +21,4 @@ const Cards = () => {
   )
 }
 
-export default Cards
+export default CardList

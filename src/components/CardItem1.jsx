@@ -2,8 +2,8 @@ import { Paper, Stack, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 
 
+const CardItem1 = ({currentWeather}) => {
 
-const CardItem1 = () => {
     return (
         <Paper elevation={0} sx={{
             p: 6,
@@ -13,7 +13,6 @@ const CardItem1 = () => {
             alignItems:"center",
             justifyContent:"center"
         }}>
-            {/* <Box> */}
                 <TextField label="Your City" size="small" />
                 <Typography color="text.secondary" mt={4}>
                     5:05 PM, Mon, Nov 23, 2020
@@ -22,7 +21,7 @@ const CardItem1 = () => {
                     mt: 4,
                 }}>
                     <Typography variant="h2" fontWeight={700}>
-                        72
+                        {currentWeather === null ? "...loading" : currentWeather.main.temp}
                     </Typography>
                 </Stack>
                 <Typography variant="h4" fontWeight={700} mt={4}>
@@ -49,7 +48,6 @@ const CardItem1 = () => {
                         </Typography>
                     </Box>
                 </Stack>
-            {/* </Box> */}
         </Paper>
     )
 }
