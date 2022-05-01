@@ -1,31 +1,47 @@
-import { Box, CssBaseline } from "@mui/material";
+import React from "react";
+import { Box, CircularProgress, CssBaseline } from "@mui/material";
 import { useEffect, useState } from "react";
 import CardList from "./components/CardList";
 import axios from 'axios'
 
-const API_KEY = 'f5c90966fc4a353b2f07d395e175a8a7'
+const API_KEY = process.env.REACT_APP_API_KEY
 
 
 function App() {
+    const [isLoading, setIsLoading] = useState(true)
     const [currentWeather, setCurrentWeather] = useState(null)
-
-    const getCurrentWeather = (city) => {
-      axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
-      .then(res => {
-          setCurrentWeather(res.data)
-          }
-        )
-      .catch(err =>
-          console.log(err)
-      )
+    const defaultLocation = {
+      latitude: 51.50853, 
+      longitude: -0.12574
     }
 
-    useEffect(() => { 
-      getCurrentWeather('Bulawayo')
+    const fetchData = async (latitude, longitude) => {
+      const res = await axios(
+        `${process.env.REACT_APP_API_URL}/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
+        )
+      setCurrentWeather(res.data)
+      setIsLoading(false)
+    }
+
+    const getData = async () => {
+      if ("geolocation" in navigator){
+        navigator.geolocation.getCurrentPosition((position) => {
+          fetchData(position.coords.latitude, position.coords.longitude)            
+        },
+        (err) => {
+          if (err.code === err.PERMISSION_DENIED){
+            fetchData(defaultLocation.latitude, defaultLocation.longitude)
+          }
+        }
+        )
+      } else {
+        fetchData(defaultLocation.latitude, defaultLocation.longitude)
+      }
+    }
+
+    useEffect(() => {
+      getData()
     }, [])
-    useEffect(() => { 
-      console.log(currentWeather)
-    }, [currentWeather])
 
   return (
     <Box sx={{
@@ -33,7 +49,19 @@ function App() {
       backgroundColor: "#f3f6fa",
     }}>
       <CssBaseline />
+      {isLoading 
+      ?
+      <Box sx={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <CircularProgress />
+      </Box>
+      :
       <CardList currentWeather={currentWeather} />
+      }
     </Box>
   );
 }

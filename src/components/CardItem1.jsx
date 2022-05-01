@@ -1,9 +1,16 @@
+import { LocationOn } from '@mui/icons-material'
 import { Paper, Stack, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { useEffect, useState } from 'react'
 
 
 const CardItem1 = ({currentWeather}) => {
-
+    const [Icon, setIcon] = useState(null)
+    
+    useEffect(() => {
+        setIcon(currentWeather.weather[0].icon)
+    }, [])
+    
     return (
         <Paper elevation={0} sx={{
             p: 6,
@@ -14,21 +21,44 @@ const CardItem1 = ({currentWeather}) => {
             justifyContent:"center"
         }}>
                 <TextField label="Your City" size="small" />
-                <Typography color="text.secondary" mt={4}>
-                    5:05 PM, Mon, Nov 23, 2020
-                </Typography>
-                <Stack direction="row" spacing={2} sx={{
-                    mt: 4,
+                <Box sx={{
+                    mt: 6,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
                 }}>
-                    <Typography variant="h2" fontWeight={700}>
-                        {currentWeather === null ? "...loading" : currentWeather.main.temp}
+                    <LocationOn sx={{color: "#960A0A"}} />
+                    <Typography color="text.secondary" sx={{ml:1}}>
+                        {`${currentWeather.name}, ${currentWeather.sys.country}` }
                     </Typography>
-                </Stack>
-                <Typography variant="h4" fontWeight={700} mt={4}>
-                    Cloudy
+                </Box>
+                <Box sx={{
+                    mt: 1,
+                    display: "flex",
+                    alignItems: "center",
+                }}>
+                    <img 
+                      src={`http://openweathermap.org/img/wn/${Icon}@2x.png`}
+                      alt="img"
+                    />
+                    <Typography variant="h3" display="inline" fontWeight={700} sx={{ml: 1}}>
+                        {Math.round(currentWeather.main.temp)} 
+                    </Typography>
+                    <Typography 
+                      display="inline-block" 
+                      variant="primary" 
+                      fontSize={20} 
+                      fontWeight={800} 
+                      sx={{mb: 3}} 
+                    >
+                        ℃
+                    </Typography> 
+                </Box>
+                <Typography variant="h4" fontWeight={700} mt={1}>
+                    {currentWeather.weather[0].main}
                 </Typography>
                 <Stack direction="row" spacing={4} sx={{
-                    mt: 4,
+                    mt: 6,
                     textAlign: "center"
                 }}>
                     <Box>
@@ -36,7 +66,7 @@ const CardItem1 = ({currentWeather}) => {
                             Humidity
                         </Typography>
                         <Typography fontSize={18} mt={2}>
-                            45%
+                            {currentWeather.main.humidity}%
                         </Typography>
                     </Box>
                     <Box>
@@ -44,7 +74,7 @@ const CardItem1 = ({currentWeather}) => {
                             Wind speed
                         </Typography>
                         <Typography fontSize={18} mt={2}>
-                            19.2 km/j
+                            {currentWeather.wind.speed} km/j
                         </Typography>
                     </Box>
                 </Stack>
