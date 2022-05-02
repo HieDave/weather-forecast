@@ -10,36 +10,37 @@ const API_KEY = process.env.REACT_APP_API_KEY
 function App() {
     const [isLoading, setIsLoading] = useState(true)
     const [currentWeather, setCurrentWeather] = useState(null)
-    const defaultLocation = {
-      latitude: 51.50853, 
-      longitude: -0.12574
-    }
-
+    
     const fetchData = async (latitude, longitude) => {
       const res = await axios(
-        `${process.env.REACT_APP_API_URL}/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
+        `${process.env.REACT_APP_API_URL}/onecall?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
         )
       setCurrentWeather(res.data)
       setIsLoading(false)
     }
 
-    const getData = async () => {
-      if ("geolocation" in navigator){
-        navigator.geolocation.getCurrentPosition((position) => {
-          fetchData(position.coords.latitude, position.coords.longitude)            
-        },
-        (err) => {
-          if (err.code === err.PERMISSION_DENIED){
-            fetchData(defaultLocation.latitude, defaultLocation.longitude)
-          }
-        }
-        )
-      } else {
-        fetchData(defaultLocation.latitude, defaultLocation.longitude)
-      }
-    }
-
+    
     useEffect(() => {
+      const defaultLocation = {
+        latitude: 51.50853, 
+        longitude: -0.12574
+      }
+  
+      const getData = async () => {
+        if ("geolocation" in navigator){
+          navigator.geolocation.getCurrentPosition((position) => {
+            fetchData(position.coords.latitude, position.coords.longitude)            
+          },
+          (err) => {
+            if (err.code === err.PERMISSION_DENIED){
+              fetchData(defaultLocation.latitude, defaultLocation.longitude)
+            }
+          }
+          )
+        } else {
+          fetchData(defaultLocation.latitude, defaultLocation.longitude)
+        }
+      }  
       getData()
     }, [])
 
