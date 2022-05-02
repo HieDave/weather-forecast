@@ -1,16 +1,10 @@
 import { LocationOn } from '@mui/icons-material'
 import { Paper, Stack, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { useEffect, useState } from 'react'
 
 
-const CardItem1 = ({currentWeather}) => {
-    const [Icon, setIcon] = useState(null)
-    
-    useEffect(() => {
-        setIcon(currentWeather.weather[0].icon)
-    }, [])
-    
+const CardItem1 = ({currentWeather, timezone}) => {
+
     return (
         <Paper elevation={0} sx={{
             p: 6,
@@ -29,7 +23,7 @@ const CardItem1 = ({currentWeather}) => {
                 }}>
                     <LocationOn sx={{color: "#960A0A"}} />
                     <Typography color="text.secondary" sx={{ml:1}}>
-                        {`${currentWeather.name}, ${currentWeather.sys.country}` }
+                        {`${timezone}` }
                     </Typography>
                 </Box>
                 <Box sx={{
@@ -38,11 +32,11 @@ const CardItem1 = ({currentWeather}) => {
                     alignItems: "center",
                 }}>
                     <img 
-                      src={`http://openweathermap.org/img/wn/${Icon}@2x.png`}
+                      src={`${process.env.REACT_APP_ICON_URL}/${currentWeather.weather[0].icon}@2x.png`}
                       alt="img"
                     />
                     <Typography variant="h3" display="inline" fontWeight={700} sx={{ml: 1}}>
-                        {Math.round(currentWeather.main.temp)} 
+                        {Math.round(currentWeather.temp)} 
                     </Typography>
                     <Typography 
                       display="inline-block" 
@@ -55,7 +49,7 @@ const CardItem1 = ({currentWeather}) => {
                     </Typography> 
                 </Box>
                 <Typography variant="h4" fontWeight={700} mt={1}>
-                    {currentWeather.weather[0].main}
+                    {currentWeather.weather[0].description}
                 </Typography>
                 <Stack direction="row" spacing={4} sx={{
                     mt: 6,
@@ -66,7 +60,7 @@ const CardItem1 = ({currentWeather}) => {
                             Humidity
                         </Typography>
                         <Typography fontSize={18} mt={2}>
-                            {currentWeather.main.humidity}%
+                            {currentWeather.humidity}%
                         </Typography>
                     </Box>
                     <Box>
@@ -74,7 +68,7 @@ const CardItem1 = ({currentWeather}) => {
                             Wind speed
                         </Typography>
                         <Typography fontSize={18} mt={2}>
-                            {currentWeather.wind.speed} km/j
+                            {currentWeather.wind_speed} km/j
                         </Typography>
                     </Box>
                 </Stack>

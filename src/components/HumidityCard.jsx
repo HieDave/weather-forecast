@@ -1,8 +1,14 @@
 import { Paper, Typography } from '@mui/material'
-import React from 'react'
+
 
 const HumidityCard = (props) => {
-  const {date, humidity, index} = props;
+  const {unix_date, humidity, icon, index} = props;
+  
+  const options = { year: 'numeric', month: 'long', day: 'numeric' }
+  const getFullDate = (dt) => {
+    const date = new Date(dt * 1000)
+    return date
+  }
 
   return (
     <Paper elevation={0} sx={{
@@ -16,8 +22,12 @@ const HumidityCard = (props) => {
         color: index === 0 ? "white" : "text.secondary"
     }}>
         <Typography variant='h6'>
-            {date}
+            {getFullDate(unix_date).toLocaleDateString('en-GB', options)}
         </Typography>
+        <img 
+          src={`${process.env.REACT_APP_ICON_URL}/${icon}@2x.png`}
+          alt="img"
+        />
         <Typography gutterBottom>
             Humidity
         </Typography>

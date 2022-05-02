@@ -4,16 +4,16 @@ import Chart from './Chart';
 
 
 
-const CardItem2 = () => {
+const CardItem2 = ({forecastWeather}) => {
   return (
     <>
         <Paper elevation={0} sx={{
             p: 1,
             height: 250
         }}>
-            <Chart />
+            <Chart forecastWeather={forecastWeather} />
         </Paper>
-        <HumidityCardList />
+        <HumidityCardList forecastWeather={forecastWeather}/>
     </>
   )
 }

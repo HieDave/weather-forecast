@@ -9,13 +9,17 @@ const API_KEY = process.env.REACT_APP_API_KEY
 
 function App() {
     const [isLoading, setIsLoading] = useState(true)
-    const [currentWeather, setCurrentWeather] = useState(null)
+    const [currentWeather, setCurrentWeather] = useState([])
+    const [forecastWeather, setForeCastWeather] = useState([])
+    const [timezone, setTimezone] = useState([])
     
     const fetchData = async (latitude, longitude) => {
       const res = await axios(
         `${process.env.REACT_APP_API_URL}/onecall?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
-        )
-      setCurrentWeather(res.data)
+      )
+      setCurrentWeather(res.data.current)
+      setForeCastWeather(res.data.daily)
+      setTimezone(res.data.timezone)
       setIsLoading(false)
     }
 
@@ -61,7 +65,11 @@ function App() {
         <CircularProgress />
       </Box>
       :
-      <CardList currentWeather={currentWeather} />
+      <CardList 
+        currentWeather={currentWeather} 
+        forecastWeather={forecastWeather} 
+        timezone={timezone}
+      />
       }
     </Box>
   );

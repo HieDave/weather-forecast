@@ -2,8 +2,9 @@ import 'chart.js/auto';
 import { Line } from 'react-chartjs-2'
 
 
-const Chart = () => {
-  return (
+const Chart = ({forecastWeather}) => {
+    
+    return (
         <>
             <Line
                 data={{
@@ -11,7 +12,9 @@ const Chart = () => {
                     datasets: [
                         {
                             label: 'temperature',
-                            data: [65, 59, 80, 81, 56, 75],
+                            data: forecastWeather.map((day)=>{
+                                return day.temp.day
+                            }),
                             fill: 'stack',
                             backgroundColor: '#eef4fe',
                             borderColor: '#5596f6',
@@ -59,7 +62,7 @@ const Chart = () => {
                 }}
             />
         </>
-  )
+    )
 }
 
 export default Chart
